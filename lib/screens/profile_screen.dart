@@ -72,65 +72,82 @@ class _ProfileScreenState extends State<ProfileScreen> {
         future: futureUser,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Container(
-                padding: const EdgeInsets.all(10),
-                child: Column(children: [
-                  Center(
-                      child: CircleAvatar(
-                          backgroundImage: NetworkImage(snapshot.data!.avatar),
-                          radius: 70)),
-                  Container(
-                      child: Row(children: [
-                    Expanded(
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Column(children: [
+            return SingleChildScrollView(
+                child: Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(children: [
+                      Center(
+                          child: CircleAvatar(
+                              backgroundColor: Colors.deepOrange,
+                              radius: 95,
+                              child: CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(snapshot.data!.avatar),
+                                  radius: 80))),
+                      Container(
+                          margin: const EdgeInsets.only(top: 30),
+                          child: Row(children: [
+                            Expanded(
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Column(children: [
+                                      const Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text('First Name',
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight:
+                                                      FontWeight.bold))),
+                                      Container(
+                                          margin:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                snapshot.data!.firstName,
+                                                style: const TextStyle(
+                                                    fontSize: 20),
+                                              )))
+                                    ]))),
+                            Expanded(
+                                child: Column(children: [
                               const Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Text('First Name',
+                                  child: Text('Last Name',
                                       style: TextStyle(
-                                        fontSize: 20,
-                                      ))),
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold))),
                               Container(
                                   margin: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    snapshot.data!.firstName,
-                                    style: const TextStyle(fontSize: 20),
-                                  ))
-                            ]))),
-                    Expanded(
-                        child: Column(children: [
-                      const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text('Last Name',
-                              style: TextStyle(fontSize: 20))),
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        snapshot.data!.lastName,
+                                        style: const TextStyle(fontSize: 20),
+                                      )))
+                            ])),
+                          ])),
                       Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            snapshot.data!.lastName,
-                            style: const TextStyle(fontSize: 20),
-                          ))
-                    ])),
-                  ])),
-                  Container(
-                      margin: const EdgeInsets.only(top: 30),
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(children: [
-                            const Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text('Email',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    ))),
-                            Container(
-                                margin: const EdgeInsets.only(left: 10),
-                                child: Text(
-                                  snapshot.data!.email,
-                                  style: const TextStyle(fontSize: 20),
-                                ))
-                          ])))
-                ]));
+                          margin: const EdgeInsets.only(top: 30),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Column(children: [
+                                const Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text('Email',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold))),
+                                Container(
+                                    margin: const EdgeInsets.only(left: 10),
+                                    child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          snapshot.data!.email,
+                                          style: const TextStyle(fontSize: 20),
+                                        )))
+                              ])))
+                    ])));
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }

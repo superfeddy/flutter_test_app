@@ -27,15 +27,28 @@ class NavigationBar extends StatefulWidget {
 // Navigation Bar Widget State Management
 class _NavigationBarState extends State<NavigationBar> {
   int _selectedIndex = 0; // selected screen index
+  // PostScreen? postScreen;
   final List _widgetOptions = [];
+  List<String> items = [];
 
   @override
   void initState() {
     super.initState();
-    // postScreen = PostScreen(items, addItem, removeItem);
     _widgetOptions.add(const FeedScreen());
-    _widgetOptions.add(const PostScreen());
+    _widgetOptions.add(PostScreen(items, addItem, removeItem));
     _widgetOptions.add(const ProfileScreen());
+  }
+
+  void addItem(String text) {
+    setState(() {
+      items.add(text);
+    });
+  }
+
+  void removeItem(int index) {
+    setState(() {
+      items.removeAt(index);
+    });
   }
 
   // Nav Item Click Handler
