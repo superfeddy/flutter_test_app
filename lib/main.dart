@@ -27,7 +27,6 @@ class NavigationBar extends StatefulWidget {
 // Navigation Bar Widget State Management
 class _NavigationBarState extends State<NavigationBar> {
   int _selectedIndex = 0; // selected screen index
-  // PostScreen? postScreen;
   final List _widgetOptions = [];
   List<String> items = [];
 
@@ -39,12 +38,14 @@ class _NavigationBarState extends State<NavigationBar> {
     _widgetOptions.add(const ProfileScreen());
   }
 
+  // add item
   void addItem(String text) {
     setState(() {
       items.add(text);
     });
   }
 
+  // remove item
   void removeItem(int index) {
     setState(() {
       items.removeAt(index);
