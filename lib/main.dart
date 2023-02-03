@@ -1,41 +1,80 @@
 import 'package:flutter/material.dart';
+import './screens/feed_screen.dart';
+import './screens/post_screen.dart';
+import './screens/profile_screen.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const App());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+// Main App
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // Application name
-      title: 'Flutter Hello World',
-      // Application theme data, you can set the colors for the application as
-      // you want
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      // A widget which will be started on application startup
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+    return const MaterialApp(
+      home: NavigationBar(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final String title;
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+// Bottom Navigation Bar
+class NavigationBar extends StatefulWidget {
+  const NavigationBar({Key? key}) : super(key: key);
+
+  @override
+  _NavigationBarState createState() => _NavigationBarState();
+}
+
+// Navigation Bar Widget State Management
+class _NavigationBarState extends State<NavigationBar> {
+  int _selectedIndex = 0; // selected screen index
+  final List _widgetOptions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // postScreen = PostScreen(items, addItem, removeItem);
+    _widgetOptions.add(const FeedScreen());
+    _widgetOptions.add(const PostScreen());
+    _widgetOptions.add(const ProfileScreen());
+  }
+
+  // Nav Item Click Handler
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // The title text which will be shown on the action bar
-        title: Text(title),
-      ),
+          title: const Text('GlobeSisters'), backgroundColor: Colors.green),
       body: Center(
-        child: Text(
-          'Hello, World!',
-        ),
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(Icons.feed),
+                label: 'Feed',
+                backgroundColor: Colors.green),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.post_add),
+                label: 'Post',
+                backgroundColor: Colors.deepOrangeAccent),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+              backgroundColor: Colors.blue,
+            ),
+          ],
+          type: BottomNavigationBarType.shifting,
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.black,
+          iconSize: 40,
+          onTap: _onItemTapped,
+          elevation: 5),
     );
   }
 }
