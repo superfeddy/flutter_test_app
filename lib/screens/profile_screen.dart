@@ -63,11 +63,82 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     futureUser = fetchUser();
-    futureUser.then((value) => print(value.email));
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Profile Screen'));
+    return Scaffold(
+      body: FutureBuilder<User>(
+        future: futureUser,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+                padding: const EdgeInsets.all(10),
+                child: Column(children: [
+                  Center(
+                      child: CircleAvatar(
+                          backgroundImage: NetworkImage(snapshot.data!.avatar),
+                          radius: 70)),
+                  Container(
+                      child: Row(children: [
+                    Expanded(
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Column(children: [
+                              const Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text('First Name',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ))),
+                              Container(
+                                  margin: const EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    snapshot.data!.firstName,
+                                    style: const TextStyle(fontSize: 20),
+                                  ))
+                            ]))),
+                    Expanded(
+                        child: Column(children: [
+                      const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Last Name',
+                              style: TextStyle(fontSize: 20))),
+                      Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            snapshot.data!.lastName,
+                            style: const TextStyle(fontSize: 20),
+                          ))
+                    ])),
+                  ])),
+                  Container(
+                      margin: const EdgeInsets.only(top: 30),
+                      child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(children: [
+                            const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text('Email',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ))),
+                            Container(
+                                margin: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                  snapshot.data!.email,
+                                  style: const TextStyle(fontSize: 20),
+                                ))
+                          ])))
+                ]));
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+
+          // By default, show a loading spinner.
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
+    );
   }
 }
